@@ -25,4 +25,3 @@ jobs:
             Ref : ${{ github.ref }}
             Commit : ${{ github.sha }}
             Lien exécution : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-``
