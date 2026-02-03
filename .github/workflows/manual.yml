@@ -1,24 +1,28 @@
-name: Validation Email
+name: Validation Email (Gmail)
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:#   branches: [main]
 
 jobs:
   send-mail:
     runs-on: ubuntu-latest
     steps:
-      - name: Send notification email
+      - name: Send notification email via Gmail SMTP
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
           server_port: ${{ secrets.SMTP_PORT }}
+          secure: true                    # STARTTLS
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
           from: ${{ secrets.SMTP_USERNAME }}
           to: ${{ secrets.SMTP_USERNAME }}
-          subject: "Validation GitHub Actions - PR #${{ github.event.pull_request.number }}"
+          subject: "Validation GitHub Actions - PR #${{ github.event.pull_request.number || 'N/A' }}"
           body: |
             La validation GitHub Actions vient de s’exécuter.
-            Repository : ${{ github.repository }}
-            PR : ${{ github.event.pull_request.html_url }}
+            Dépôt : ${{ github.repository }}
+            Exécution : ${{ github.run_id }} (#${{ github.run_number }})
+            Ref : ${{ github.ref }}
             Commit : ${{ github.sha }}
+            Lien exécution : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+``
