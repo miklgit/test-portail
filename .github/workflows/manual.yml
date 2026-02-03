@@ -3,6 +3,19 @@ name: Validation Email (Gmail)
 on:
   workflow_dispatch:
 
+name: Validation Email (Gmail)
+
+on:
+  workflow_dispatch:
+    inputs:
+      subject:
+        description: "Sujet"
+        required: false
+
+  # (facultatif) écoute d’un événement générique
+  repository_dispatch:
+    types: [send-email]
+
 jobs:
   send-mail:
     runs-on: ubuntu-latest
@@ -12,16 +25,13 @@ jobs:
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
           server_port: ${{ secrets.SMTP_PORT }}
-          # secure: true                    # STARTTLS
+          # secure: true
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
           from: ${{ secrets.SMTP_USERNAME }}
+          # Priorité aux inputs → fallback sur secret
           to: ${{ secrets.SMTP_USERNAME }}
-          subject: "Provisioning VM #${{ github.event.pull_request.number || 'N/A' }}"
-          body: |
-            Le provisioning de VM a éré déclenché.
-            Dépôt : ${{ github.repository }}
-            Exécution : ${{ github.run_id }} (#${{ github.run_number }})
-            Ref : ${{ github.ref }}
-            Commit : ${{ github.sha }}
-            Lien exécution : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          subject: "Provisioning d'un serveur RHEL en ${{ github.event.inputs.subject }}"
+          body: ${{ github.event.inputs.body || 'Déclenché par API (workflow_dispatch).' }}
+
+
