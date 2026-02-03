@@ -27,6 +27,6 @@ jobs:
           # Priorité aux inputs → fallback sur secret
           to: ${{ secrets.SMTP_USERNAME }}
           subject: "Provisioning d'un serveur RHEL en ${{ github.event.inputs.subject }}"
-          body: ${{ github.event.inputs.body || 'Déclenché par API (workflow_dispatch).' }}
+          body: 'Déclenché par API (workflow_dispatch).'
 
 
