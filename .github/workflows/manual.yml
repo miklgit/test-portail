@@ -17,9 +17,9 @@ jobs:
           password: ${{ secrets.SMTP_PASSWORD }}
           from: ${{ secrets.SMTP_USERNAME }}
           to: ${{ secrets.SMTP_USERNAME }}
-          subject: "Validation GitHub Actions - PR #${{ github.event.pull_request.number || 'N/A' }}"
+          subject: "Provisioning VM #${{ github.event.pull_request.number || 'N/A' }}"
           body: |
-            La validation GitHub Actions vient de s’exécuter.
+            Le provisioning de VM a éré déclenché.
             Dépôt : ${{ github.repository }}
             Exécution : ${{ github.run_id }} (#${{ github.run_number }})
             Ref : ${{ github.ref }}
