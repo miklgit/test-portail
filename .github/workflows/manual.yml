@@ -1,0 +1,25 @@
+name: Validation Email
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  send-mail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          from: ${{ secrets.SMTP_USERNAME }}
+          to: ${{ secrets.SMTP_USERNAME }}
+          subject: "Validation GitHub Actions - PR #${{ github.event.pull_request.number }}"
+          body: |
+            La validation GitHub Actions vient de s’exécuter.
+            Repository : ${{ github.repository }}
+            PR : ${{ github.event.pull_request.html_url }}
+            Commit : ${{ github.sha }}
