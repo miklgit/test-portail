@@ -1,7 +1,7 @@
 name: Validation Email (Gmail)
 
 on:
-  workflow_dispatch:#   branches: [main]
+  workflow_dispatch:
 
 jobs:
   send-mail:
